@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import userModel from "../models/userModel.js";
+
 
 const signInUser = asyncHandler( async (request, response) => {
     response.status(200).json({
