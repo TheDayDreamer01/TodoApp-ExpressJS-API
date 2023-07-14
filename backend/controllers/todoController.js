@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import todoModel from "../models/todoModel.js";
+import userModel from "../models/userModel.js";
 
 // GET /api/todo/:username
 const getUserTasks = asyncHandler( async(request, response) => {
@@ -35,6 +36,8 @@ const createUserTask = asyncHandler( async(request, response) => {
         notes : notes
     });
 
+    const user = await userModel.findOne(request.user);
+    await user.incrementTask();
     response.status(200).json({
         message : "Successfully created",
         data : newTask
@@ -59,7 +62,13 @@ const deleteUserTask = asyncHandler( async(request, response) => {
     
     const title = request.params.title;
 
-    await todoModel.deleteOne({ title : title });
+    const task = await todoModel.findOne({ title : title });
+    const user = await userModel.findOne(request.user);
+
+    if (task.is_check) await user.resolveTask(-1);
+
+    await todoModel.deleteOne(task);
+    await user.decrementTask();
     response.status(200).json({
         message : "Successfully deleted task"
     });
@@ -104,16 +113,19 @@ const resolveUserTask = asyncHandler( async(request, response) => {
     const title = request.params.title;
 
     const task = await todoModel.findOne({ title : title });
-    const isCheck = task.is_check;
+    const check = !task.is_check;
 
     await todoModel.updateOne(
         { title : title },
         { $set : {
-            is_check : !isCheck
+            is_check : check
         }}
     );
+
+    const user = await userModel.findOne(request.user);
+    await user.resolveTask(check ? 1 : -1 );
     response.status(200).json({
-        message : (!isCheck) ? 
+        message : (check) ? 
             "Check task" : "Uncheck task"
     })
 });

@@ -11,7 +11,7 @@ import { authRequired } from "../middleware/authMiddleware.js";
 const userRouter = express();
 
 
-userRouter.route("/:id")
+userRouter.route("/:username")
     .get(authRequired, getUserProfile)
     .put(authRequired, updateUserProfile)
     .patch(authRequired, updateUserPassword)

@@ -3,8 +3,8 @@ import asyncHandler from "express-async-handler";
 
 const getUserProfile = asyncHandler( async(request, response) => {
     response.status(200).json({
-        message : "user profile"
-    })
+        user : request.user
+    });
 });
 
 const updateUserProfile = asyncHandler( async(request, response) => {
