@@ -9,7 +9,8 @@ const notFound = (request, response, next) => {
 const errorHandler = (error, request, response, next) => {
     const environment = process.env.NODE_ENV || "development";
     const message = error.message || "Internal server error";
-    const statusCode = error.status || 500;
+    const statusCode = response.statusCode === 200 ? 
+        500 : response.statusCode;
     
     response.status(statusCode).json({
         message : message,
@@ -17,7 +18,6 @@ const errorHandler = (error, request, response, next) => {
             null : error.stack
     });
 };
-
 
 export {
     notFound, 

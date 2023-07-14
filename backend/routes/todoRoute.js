@@ -7,20 +7,21 @@ import {
     updateUserTask, 
     resolveUserTask
 } from "../controllers/todoController.js";
+import { authRequired } from "../middleware/authMiddleware.js";
 
 
 const todoRouter = express();
 
 
 todoRouter.route("/:username")
-    .get(getUserTasks) 
-    .post(createUserTask);
+    .get(authRequired, getUserTasks) 
+    .post(authRequired, createUserTask);
 
 todoRouter.route("/:username/:task")
-    .get(getUserTask)
-    .put(updateUserTask)
-    .patch(resolveUserTask)
-    .delete(deleteUserTask);
+    .get(authRequired, getUserTask)
+    .put(authRequired, updateUserTask)
+    .patch(authRequired, resolveUserTask)
+    .delete(authRequired, deleteUserTask);
 
     
 export default todoRouter;

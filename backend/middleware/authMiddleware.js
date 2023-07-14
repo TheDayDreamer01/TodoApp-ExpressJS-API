@@ -9,8 +9,12 @@ const authRequired = aysncHandler( async (request, response, next) => {
     if (token){
         try {
             const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            const exactUser = await userModel.findOne({
+                _id : decode.userId, username : request.params.username }).select("-password");
+
+            if (!exactUser) throw new Error();
             
-            request.user = await userModel.findById(decode.userId).select("-password");
+            request.user = exactUser;
             next();
         } catch (error){
             response.status(401);
