@@ -68,19 +68,54 @@ const deleteUserTask = asyncHandler( async(request, response) => {
 
 // PUT /api/todo/:username/:task
 const updateUserTask = asyncHandler( async(request, response) => {
-    const title = request.params.title;
+
+    const taskTitle = request.params.title;
+    const { title, description, notes } = request.body;
+
+    if (title !== undefined){
+        if (await todoModel.findOne({title : title})){
+            response.status(401);
+            throw new Error(`Task '${title}' already exists`);
+        }
+    } 
+
+    const updatedTask = await todoModel.updateOne(
+        { title : taskTitle }, 
+        { $set : {
+            title : title || taskTitle , 
+            description : description,
+            notes : notes
+        }});
+
+    if (updatedTask.modifiedCount === 0){
+        response.status(401);
+        throw new Error("Cannot modify values");
+    }
 
     response.status(200).json({
-        message : "Update User Tasks"
+        message : "Successfully updated"
     });
 });
 
 
 // PATCH /api/todo/:username/:task
 const resolveUserTask = asyncHandler( async(request, response) => {
+
+    const title = request.params.title;
+
+    const task = await todoModel.findOne({ title : title });
+    const isCheck = task.is_check;
+
+    await todoModel.updateOne(
+        { title : title },
+        { $set : {
+            is_check : !isCheck
+        }}
+    );
     response.status(200).json({
-        message : "Resolve User Tasks"
-    });
+        message : (!isCheck) ? 
+            "Check task" : "Uncheck task"
+    })
 });
 
 

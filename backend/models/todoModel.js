@@ -13,9 +13,11 @@ const todoSchema = mongoose.Schema({
     },
     description : {
         type : String,
+        default : null
     },
     notes : {
-        type : String
+        type : String,
+        default : null
     },
     is_check : {
         type : Boolean,
