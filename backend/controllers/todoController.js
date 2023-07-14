@@ -3,8 +3,11 @@ import todoModel from "../models/todoModel.js";
 
 // GET /api/todo/:username
 const getUserTasks = asyncHandler( async(request, response) => {
+    
+    const tasks = await todoModel.find({ user_id : request.user._id });
+
     response.status(200).json({
-        message : "User Tasks"
+        TodoList : tasks
     });
 });
 
@@ -19,7 +22,7 @@ const createUserTask = asyncHandler( async(request, response) => {
         response.status(401);
         throw new Error("Task already exists");
     }
-    
+
     if (title === undefined || title === "") {
         response.status(401);
         throw new Error("Please enter a valid Title");
