@@ -44,22 +44,32 @@ const createUserTask = asyncHandler( async(request, response) => {
 
 // GET /api/todo/:username/:task
 const getUserTask = asyncHandler( async(request, response) => {
+
+    const title = request.params.title;
+
+    const task = await todoModel.findOne({ title : title });
     response.status(200).json({
-        message : "get User Task"
+        Task : task
     });
 });
 
 
 // DELETE /api/todo/:username/:task
 const deleteUserTask = asyncHandler( async(request, response) => {
+    
+    const title = request.params.title;
+
+    await todoModel.deleteOne({ title : title });
     response.status(200).json({
-        message : "Delete User Tasks"
+        message : "Successfully deleted task"
     });
 });
 
 
 // PUT /api/todo/:username/:task
 const updateUserTask = asyncHandler( async(request, response) => {
+    const title = request.params.title;
+
     response.status(200).json({
         message : "Update User Tasks"
     });
