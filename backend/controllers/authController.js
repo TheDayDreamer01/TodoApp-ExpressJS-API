@@ -70,9 +70,9 @@ const signUpUser = asyncHandler( async (request, response) => {
 
 const signOutUser = asyncHandler( async (request, response) => {
     try{
-        deleteTokens(response);
+        deleteTokens(request, response);
         response.status(200).json({
-            message : "refresh token"
+            message : "Successfully logged out"
         });
     } catch (error){
         response.status(400);
@@ -81,7 +81,15 @@ const signOutUser = asyncHandler( async (request, response) => {
 });
 
 const refreshToken = asyncHandler( async (request, response) => {
-   
+    try {
+        generateAccessToken(response, request.user._id);
+        response.status(200).json({
+            message : "Refreshed token"
+        });
+    } catch (error){ 
+        response.status(400);
+        throw new Error("Failed to generate access token");
+    }
 });
 
 export {

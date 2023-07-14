@@ -1,4 +1,8 @@
 import express from "express";
+import { 
+    authRequired,
+    refreshRequired
+} from "../middleware/authMiddleware.js";
 import {
     signInUser,
     signUpUser, 
@@ -12,8 +16,19 @@ const authRouter = express();
 
 authRouter.post("/signin", signInUser);
 authRouter.post("/signup", signUpUser);
-authRouter.post("/signout", signOutUser);
-authRouter.post("/refresh", refreshToken);
+
+authRouter.post(
+    "/signout", 
+    authRequired, 
+    signOutUser
+);
+
+authRouter.post(
+    "/refresh", 
+    authRequired, 
+    refreshRequired, 
+    refreshToken
+);
 
 
 export default authRouter;

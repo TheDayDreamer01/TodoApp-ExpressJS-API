@@ -7,7 +7,7 @@ const generateAccessToken = (response, userId) => {
     });
 
     response.cookie("access_token", token, {
-       httpOnly : true,
+       httpOnly : true, 
        secure : true, 
        sameSite : "strict",
        maxAge : 1000 * 60 * 60 * 24 
@@ -28,7 +28,8 @@ const generateRefreshToken = (response, userId) => {
     });
 };
 
-const deleteTokens = (response) => {
+const deleteTokens = (request, response) => {
+    request.user = null;
     response.cookie("access_token", "", {
         httpOnly : true,
         expires : new Date(0)

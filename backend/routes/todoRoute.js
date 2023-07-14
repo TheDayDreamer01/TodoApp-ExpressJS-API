@@ -12,11 +12,11 @@ import {
 const todoRouter = express();
 
 
-todoRouter.route("/:id")
+todoRouter.route("/:username")
     .get(getUserTasks) 
     .post(createUserTask);
 
-todoRouter.route("/:id/:task")
+todoRouter.route("/:username/:task")
     .get(getUserTask)
     .put(updateUserTask)
     .patch(resolveUserTask)
