@@ -1,7 +1,5 @@
 # TodoApp-ExpressJS-API
 
-# Todo App API
-
 The Todo App API is a comprehensive solution for managing todo tasks with user authentication. It is built using Express, Node.js, and MongoDB. The API provides a set of routes that enable users to create, update, and delete tasks, as well as perform authentication operations.
 
 ## Routes
