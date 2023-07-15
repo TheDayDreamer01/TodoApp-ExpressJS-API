@@ -2,7 +2,7 @@
 
 # Todo App API
 
-This repository contains the code for a Todo App API built using Express, Node.js, and MongoDB. The API provides endpoints to manage user authentication, user profiles, and todo tasks.
+The Todo App API is a comprehensive solution for managing todo tasks with user authentication. It is built using Express, Node.js, and MongoDB. The API provides a set of routes that enable users to create, update, and delete tasks, as well as perform authentication operations.
 
 ## Routes
 
