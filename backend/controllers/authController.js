@@ -29,6 +29,9 @@ const signInUser = asyncHandler( async (request, response) => {
             }
         });
     }
+
+    response.status(403);
+    throw new Error("Incorrect password");
 });
 
 const signUpUser = asyncHandler( async (request, response) => {

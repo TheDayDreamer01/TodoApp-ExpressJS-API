@@ -37,7 +37,7 @@ const createUserTask = asyncHandler( async(request, response) => {
     });
 
     const user = await userModel.findOne(request.user);
-    await user.incrementTask();
+    await user.changeTaskNo(1);
     response.status(200).json({
         message : "Successfully created",
         data : newTask
@@ -68,7 +68,7 @@ const deleteUserTask = asyncHandler( async(request, response) => {
     if (task.is_check) await user.resolveTask(-1);
 
     await todoModel.deleteOne(task);
-    await user.decrementTask();
+    await user.changeTaskNo(-1);
     response.status(200).json({
         message : "Successfully deleted task"
     });

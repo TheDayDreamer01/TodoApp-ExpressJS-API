@@ -16,16 +16,10 @@ const authRouter = express();
 
 authRouter.post("/signin", signInUser);
 authRouter.post("/signup", signUpUser);
+authRouter.post("/signout", signOutUser);
 
 authRouter.post(
-    "/signout", 
-    authRequired, 
-    signOutUser
-);
-
-authRouter.post(
-    "/refresh", 
-    authRequired, 
+    "/refresh",
     refreshRequired, 
     refreshToken
 );

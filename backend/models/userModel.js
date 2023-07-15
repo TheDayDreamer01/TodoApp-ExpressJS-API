@@ -43,17 +43,10 @@ userSchema.methods.checkPassword = async function(enteredPassword){
     return await bcrypt.compare(enteredPassword, this.password);
 }
 
-userSchema.methods.incrementTask = async function() {
+userSchema.methods.changeTaskNo = async function(num) {
     await userModel.updateOne(
         { _id : this._id },
-        {$inc: {tasks :1}}
-    );
-}
-
-userSchema.methods.decrementTask = async function() {
-    await userModel.updateOne(
-        { _id : this._id },
-        {$inc : {tasks : -1 }}
+        {$inc: {tasks : num}}
     );
 }
 
